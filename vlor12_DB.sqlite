@@ -1,0 +1,72 @@
+--
+-- File generated with SQLiteStudio v3.4.4 on Tue Nov 5 21:02:34 2024
+--
+-- Text encoding used: UTF-8
+--
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+-- Table: Attendance
+DROP TABLE IF EXISTS Attendance;
+CREATE TABLE IF NOT EXISTS Attendance (
+    attendance_id INT PRIMARY KEY,
+    member_id INT,
+    check_in_time DATETIME,
+    FOREIGN KEY (member_id) REFERENCES Member(member_id)
+);
+
+-- Table: Class
+DROP TABLE IF EXISTS Class;
+CREATE TABLE IF NOT EXISTS Class (
+    class_id INT PRIMARY KEY,
+    class_name VARCHAR(50),
+    instructor VARCHAR(100),
+    schedule VARCHAR(50)
+);
+
+-- Table: Member
+DROP TABLE IF EXISTS Member;
+CREATE TABLE IF NOT EXISTS Member (
+    member_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    membership_level VARCHAR(20),
+    start_date DATE,
+    end_date DATE,
+    contact_details VARCHAR(15)
+);
+
+-- Table: Registration
+DROP TABLE IF EXISTS Registration;
+CREATE TABLE IF NOT EXISTS Registration (
+    registration_id INT PRIMARY KEY,
+    member_id INT,
+    class_id INT,
+    registration_date DATETIME,
+    FOREIGN KEY (member_id) REFERENCES Member(member_id),
+    FOREIGN KEY (class_id) REFERENCES Class(class_id)
+);
+
+-- Table: Session
+DROP TABLE IF EXISTS Session;
+CREATE TABLE IF NOT EXISTS Session (
+    session_id INT PRIMARY KEY,
+    member_id INT,
+    trainer_id INT,
+    start_time DATETIME,
+    end_time DATETIME,
+    status VARCHAR(20),
+    FOREIGN KEY (member_id) REFERENCES Member(member_id),
+    FOREIGN KEY (trainer_id) REFERENCES Trainer(trainer_id)
+);
+
+-- Table: Trainer
+DROP TABLE IF EXISTS Trainer;
+CREATE TABLE IF NOT EXISTS Trainer (
+    trainer_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50)
+);
+
+COMMIT TRANSACTION;
+PRAGMA foreign_keys = on;
